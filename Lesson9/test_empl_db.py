@@ -8,11 +8,11 @@ api = Company("https://x-clients-be.onrender.com")
 db = EmployeeManager("postgresql://x_clients_user:95PM5lQE0NfzJWDQmLjbZ45ewrz1fLYa@dpg-cqsr9ulumphs73c2q40g-a.frankfurt-postgres.render.com/x_clients_db_fxd0")
 
 def setup_module(module):
-    db.delete_all_employees()  # Очищаем таблицу сотрудников перед тестами
+    db.create_table()
+    db.delete_all_employees() 
 
 def teardown_module(module):
-    # Удалите эту строку, если dispose не определен
-    pass
+    db.dispose()
 
 def test_create_and_get_employee():
     name = "SkyPro"
@@ -59,4 +59,4 @@ def test_delete_all_employees():
         db.delete_employee(employee_id)
 
     employees_after_deletion = db.get_employees()  # Проверяем, что все сотрудники удалены
-    assert len(employees_after_deletion) == 0, "Employees not deleted successfully"
+    assert len(employees_after_deletion) == 0
